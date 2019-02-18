@@ -1,35 +1,29 @@
 package com.epam.arangoPractice.model;
 
-import org.springframework.stereotype.Component;
-
-import java.time.LocalDate;
-
-@Component
 public class Member {
-    private Long id;
+    private String _key;
     private String name;
-    private LocalDate birthDate;
+    private String birthDate;
     private Gender gender;
 
-    public Member() {
-    }
+    public Member() { }
 
-    public Member(Long id, String name, Gender gender, LocalDate birthDate) {
-        this.id = id;
+    public Member(String _key, String name, String birthDate, Gender gender) {
+        this._key = _key;
         this.name = name;
         this.birthDate = birthDate;
         this.gender = gender;
     }
 
-    public Long getId() {
-        return id;
+    public String getKey() {
+        return _key;
     }
 
     public String getName() {
         return name;
     }
 
-    public LocalDate getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
@@ -37,15 +31,15 @@ public class Member {
         return this.gender;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setKey(String key) {
+        this._key = key;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 
