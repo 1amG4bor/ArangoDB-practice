@@ -30,20 +30,5 @@ public class Member {
     public Gender getGender() {
         return this.gender;
     }
-
-    public void setKey(String key) {
-        this._key = key;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setBirthDate(String birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
+    
 }
