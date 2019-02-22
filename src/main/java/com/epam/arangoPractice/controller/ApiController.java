@@ -4,6 +4,7 @@ import com.epam.arangoPractice.model.Member;
 import com.epam.arangoPractice.service.FamilyService;
 import com.epam.arangoPractice.service.SortBy;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.util.Set;
 public class ApiController {
     private FamilyService familyService;
 
+    @Autowired
     public ApiController(FamilyService familyService) {
         this.familyService = familyService;
     }

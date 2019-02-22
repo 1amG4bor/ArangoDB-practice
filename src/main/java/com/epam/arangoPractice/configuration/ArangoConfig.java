@@ -2,6 +2,7 @@ package com.epam.arangoPractice.configuration;
 
 import com.arangodb.*;
 import com.arangodb.entity.CollectionEntity;
+import com.arangodb.entity.EdgeDefinition;
 import com.arangodb.entity.EdgeEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,8 +19,10 @@ public class ArangoConfig {
     private ArangoDatabase db;
     private Collection<CollectionEntity> collection;
     private Collection<EdgeEntity> edgeCollection;
-    @Value("${arangodb.dbname}")
+    @Value("${arangodb.dbName}")
     private String dbName;
+    @Value("${arangodb.graphName}")
+    private String graphName;
 
     @PostConstruct
     private void initIt() {
@@ -38,14 +41,21 @@ public class ArangoConfig {
     public ArangoDB getArango() {
         return arango;
     }
+
     public ArangoDatabase getDb() {
         return db;
     }
+
     public Collection<CollectionEntity> getCollection() {
         return collection;
     }
+
     public String getDbName() {
         return dbName;
+    }
+
+    public String getGraphName() {
+        return graphName;
     }
 
     private void loadCollections() {
@@ -64,5 +74,25 @@ public class ArangoConfig {
             }
         loadCollections();
         return db.collection(name);
+    }
+
+    public ArangoEdgeCollection getEdgeCollection(String name) {
+        ArangoEdgeCollection result = null;
+        try {
+            result = arango.db(dbName).graph(graphName).edgeCollection(name);
+            log.info("'{}' edge-collection has created!", name);
+        } catch (ArangoDBException e) {
+            log.error(e.getErrorMessage());
+        }
+        return result;
+    }
+
+    public ArangoGraph getGraph(String name, ArangoEdgeCollection edgeCollection) {
+        try {
+            return getDb().graph(name);
+        } catch (ArangoDBException e) {
+            log.error("Error: {}, message: {}", e.getErrorNum(), e.getErrorMessage());
+        }
+        return null;
     }
 }

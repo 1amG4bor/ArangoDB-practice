@@ -1,22 +1,19 @@
 package com.epam.arangoPractice.model;
 
-public class Member {
-    private String _key;
+import com.arangodb.entity.DocumentEntity;
+
+public class Member extends DocumentEntity {
     private String name;
     private String birthDate;
     private Gender gender;
 
     public Member() { }
 
-    public Member(String _key, String name, String birthDate, Gender gender) {
-        this._key = _key;
+    public Member(String name, String birthDate, Gender gender) {
+        super();
         this.name = name;
         this.birthDate = birthDate;
         this.gender = gender;
-    }
-
-    public String getKey() {
-        return _key;
     }
 
     public String getName() {
@@ -30,5 +27,5 @@ public class Member {
     public Gender getGender() {
         return this.gender;
     }
-    
+
 }

@@ -5,36 +5,47 @@ import com.arangodb.ArangoDBException;
 import com.arangodb.ArangoDatabase;
 import com.epam.arangoPractice.Repository.FamilyRepository;
 import com.epam.arangoPractice.configuration.ArangoConfig;
+import com.epam.arangoPractice.model.Gender;
 import com.epam.arangoPractice.model.Member;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 public class FamilyService {
-    private final String collectionName = "Family";
-    private ArangoDatabase aDB;
+    @Value("${arangodb.nodeCollections}")
+    private String collectionName;
+
     private ArangoConfig config;
     private FamilyRepository repository;
+    private ArangoDatabase aDB;
     private ArangoCollection familyCollection;
 
     @Autowired
     public FamilyService(ArangoConfig config, FamilyRepository repository) {
         this.config = config;
+        this.repository = repository;
         this.aDB = config.getDb();
         familyCollection = config.getCollection(collectionName);
-        this.repository = repository;
     }
 
     public List<Member> getFamily() {
-        List<Member> family = repository.getFamily();
+        List<Member> family = repository.getFamily(collectionName);
         return family;
+    }
+
+    public List<Member> getFamily(Gender gender) {
+        List<Member> family = getFamily();
+        return family.stream().filter(member -> member.getGender().equals(gender))
+                .collect(Collectors.toList());
     }
 
     public List<Member> getSortedFamily(SortBy sortBy) {
@@ -50,20 +61,19 @@ public class FamilyService {
     }
 
     private List<Member> getFamilyByName() {
-        return repository.getFamilyByName();
+        return repository.getFamilyByName(collectionName);
     }
 
     private List<Member> getFamilyByBirthdate() {
-        return repository.getFamilyByBirthdate();
+        return repository.getFamilyByBirthdate(collectionName);
     }
 
     public Member getMember(String key) {
-        Member member = repository.getMember(key);
+        Member member = repository.getMember(key, collectionName);
         return member;
     }
 
     public void addMember(Member member) {
-        // todo: check for duplication
         try {
             aDB.collection(collectionName).insertDocument(member);
         } catch (ArangoDBException e) {
