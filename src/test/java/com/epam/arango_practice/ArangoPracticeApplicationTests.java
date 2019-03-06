@@ -1,4 +1,4 @@
-package com.epam.arangoPractice;
+package com.epam.arango_practice;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

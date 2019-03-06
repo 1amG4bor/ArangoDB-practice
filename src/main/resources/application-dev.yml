@@ -1,0 +1,10 @@
+---
+# Arango-config
+
+arangodb:
+  user: "root"
+  password: ""
+  dbname: "demoDB"
+  graphname: "FamilyTree"
+  nodecollection: "family"
+  edgecollection: "relations"

@@ -1,0 +1,9 @@
+---
+# Arango-config
+arangodb:
+  user: "root"
+  password: ""
+  dbname: "testDB"
+  graphname: "testGraph"
+  nodecollection: "testNodes"
+  edgecollection: "testEdges"
